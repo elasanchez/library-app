@@ -15,6 +15,8 @@ module.exports = {
     browser: true
   },
   rules: {
+    'no-console': 'off',
+    'no-irregular-whitespace' : 'off'
   },
   overrides: [
     // node files
