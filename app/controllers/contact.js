@@ -6,20 +6,18 @@ export default Controller.extend({
   emailAddress : '',
   message: '',
 
-  emailIsEmpty : computed.empty('emailAddress'),
+  // emailIsEmpty : computed.empty('emailAddress'), //matching regex will eliminate empty case
   emailIsValid: computed.match('emailAddress', /^.+@.+\..+$/), //regex for email
 
-  textBoxIsEmpty: computed.empty('message'),
-  // textBoxIsValid: computed.match('message', /^.*.*a-zA-Z.*.*(a-zA-Z || *).$/),
+  // textBoxIsEmpty: computed.empty('message'), //checking length of text >= 5 eliminates empty
   islongEnough: computed.gte('message.length', 5),
 
-  // Ember.computed.and('firstComputedProperty', 'secondComputedProperty') can be used for AND op
-  isDisabled: computed('emailIsEmpty','emailIsValid', 'textBoxIsEmpty','islongEnough', function() {
-    return this.get('emailIsEmpty') ||
-     !this.get('emailIsValid') ||
-     this.get('textBoxIsEmpty')||
-     !this.get('islongEnough');
-  }),
+  conditions: computed.and('emailIsValid', 'islongEnough'), // can be used for AND op
+  isDisabled: computed.not('conditions'),
+  // Long way without AND and NOT funcitons
+  // isDisabled: computed('emailIsValid','islongEnough', function() {
+  //   return !this.get('emailIsValid')|| !this.get('islongEnough');
+  // }),
 
   actions:
   {
